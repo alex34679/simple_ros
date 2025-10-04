@@ -10,7 +10,7 @@ simple_ros是一个轻量级、高性能的机器人操作系统框架，采用�
 
 ```bash
 # 克隆项目
-# git clone https://github.com/yourusername/simple_ros.git
+git clone https://github.com/alex34679/simple_ros.git
 cd simple_ros/docker
 
 # 构建 Docker 镜像（镜像名：simple_ros_env:ubuntu20）

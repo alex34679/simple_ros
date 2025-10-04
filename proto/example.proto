@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package example;
+
+// 传感器数据消息
+message SensorData {
+  int32 sensor_id = 1;       // 传感器编号
+  float value = 2;           // 传感器数值
+  int64 timestamp = 3;       // 时间戳（毫秒）
+}
+
+// 控制命令消息
+message ControlCommand {
+  int32 cmd_id = 1;          // 命令编号
+  string cmd = 2;            // 命令内容，例如 "START"、"STOP"
+}
+
+// 心跳消息（可选，用于长连接维持）
+message Heartbeat {
+  int64 timestamp = 1;       // 当前时间戳
+}

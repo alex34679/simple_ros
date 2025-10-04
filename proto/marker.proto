@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package visualization_msgs;
+
+import "geometry_msgs.proto";  // 引用基础类型
+
+// 颜色信息 (RGBA, 0-1范围)
+message ColorRGBA {
+    float r = 1;
+    float g = 2;
+    float b = 3;
+    float a = 4;
+}
+
+// Marker类型枚举
+enum MarkerType {
+    CUBE = 0;
+    SPHERE = 1;
+    CYLINDER = 2;
+    ARROW = 3;
+    LINE_STRIP = 4;
+    POINTS = 5;
+    TEXT_VIEW_FACING = 6;
+    MESH_RESOURCE = 7;
+}
+
+// 动作类型
+enum MarkerAction {
+    ADD = 0;        // 添加/更新
+    DELETE = 1;     // 删除
+    DELETEALL = 2;  // 删除所有
+}
+
+// Marker消息
+message Marker {
+    string ns = 1;          // 命名空间
+    int32 id = 2;           // 唯一ID
+    MarkerType type = 3;    // Marker类型
+    MarkerAction action = 4; // 动作类型
+
+    geometry_msgs.Pose pose = 5;       // 使用 geometry_msgs 的 Pose
+    geometry_msgs.Vector3 scale = 6;   // 使用 geometry_msgs 的 Vector3
+    ColorRGBA color = 7;
+
+    double lifetime = 8;    // 生命周期（秒），0表示永久
+    string text = 9;
+    string mesh_resource = 10;
+    bool mesh_use_embedded_materials = 11;
+
+    repeated geometry_msgs.Point points = 12; // 使用 geometry_msgs 的 Point
+    repeated ColorRGBA colors = 13;
+}
+
+// Marker数组消息
+message MarkerArray {
+    repeated Marker markers = 1;
+}

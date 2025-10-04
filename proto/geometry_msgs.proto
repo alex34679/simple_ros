@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package geometry_msgs;
+
+// 位置信息
+message Point {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+// 四元数姿态
+message Quaternion {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+    double w = 4;
+}
+
+// 姿态信息
+message Pose {
+    Point position = 1;
+    Quaternion orientation = 2;
+}
+
+// 尺寸信息
+message Vector3 {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+// ===== 新增无人机里程计信息 =====
+message Odometry {
+    Pose pose = 1;               // 位置和姿态
+    Vector3 linear_velocity = 2; // 线速度
+    Vector3 angular_velocity = 3;// 角速度
+}

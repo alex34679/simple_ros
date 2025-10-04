@@ -1,0 +1,7 @@
+docker run -it \
+    --name my_base_container \
+    -v $(pwd)/simple_ustc:/simple_ustc \
+    --network host \
+    my_build_env:ubuntu20 \
+    /bin/bash
+

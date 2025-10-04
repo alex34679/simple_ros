@@ -1,0 +1,27 @@
+# 使用 Ubuntu 20.04 作为基础镜像
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 使用阿里云镜像源
+RUN sed -i 's|archive.ubuntu.com|mirrors.aliyun.com|g' /etc/apt/sources.list \
+    && sed -i 's|security.ubuntu.com|mirrors.aliyun.com|g' /etc/apt/sources.list
+
+# 安装基础工具 + git + eigen + nlohmann-json
+RUN apt-get update && apt-get install -y \
+    git \
+    build-essential cmake wget curl unzip pkg-config \
+    autoconf libtool zlib1g-dev libssl-dev libboost-all-dev \
+    libeigen3-dev \
+    nlohmann-json3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 配置 git 使用本地代理（127.0.0.1:7890）
+RUN git config --global http.proxy "http://127.0.0.1:7890" && \
+    git config --global https.proxy "http://127.0.0.1:7890"
+
+# 设置工作目录
+WORKDIR /simple_ros
+
+# 默认启动 bash
+CMD ["/bin/bash"]
+

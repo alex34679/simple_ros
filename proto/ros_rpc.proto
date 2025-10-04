@@ -1,0 +1,148 @@
+syntax = "proto3";
+package simple_ros;
+
+// 定义节点信息消息
+message NodeInfo {
+  string ip = 1;          // 节点IP地址
+  int32 port = 2;         // 节点端口
+  string node_name = 3;   // 节点名称
+}
+
+message TopicTargetsUpdate {
+  string topic = 1;                  // 需要更新的 topic
+  repeated NodeInfo add_targets = 2; // 新增目标
+  repeated NodeInfo remove_targets = 3; // 删除目标
+}
+
+// 定义话题信息
+message TopicInfo {
+  string topic_name = 1;  // 话题名称
+  string msg_type = 2;    // 消息类型
+}
+
+// 定义订阅请求消息
+message SubscribeRequest {
+  string topic_name = 1;  // 话题名称
+  string msg_type = 2;    // 消息类型
+  NodeInfo node_info = 3; // 订阅者节点信息
+}
+
+// 定义订阅响应消息
+message SubscribeResponse {
+  bool success = 1;               // 是否成功
+  string message = 2;             // 消息描述
+  repeated NodeInfo node_info = 3; // 提供该话题的节点信息列表
+}
+
+// 定义发布者注册请求消息
+message RegisterPublisherRequest {
+  string topic_name = 1;  // 话题名称
+  string msg_type = 2;    // 消息类型
+  NodeInfo node_info = 3; // 发布者节点信息
+}
+
+// 定义发布者注册响应消息
+message RegisterPublisherResponse {
+  bool success = 1;       // 是否成功
+  string message = 2;     // 消息描述
+}
+
+
+// 解除订阅请求
+message UnsubscribeRequest {
+  string topic_name = 1;
+  string msg_type = 2;
+  NodeInfo node_info = 3; // 订阅者节点信息
+}
+
+message UnsubscribeResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 解除发布请求
+message UnregisterPublisherRequest {
+  string topic_name = 1;
+  string msg_type = 2;
+  NodeInfo node_info = 3; // 发布者节点信息
+}
+
+message UnregisterPublisherResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 获取节点列表请求
+message GetNodesRequest {
+  // 可选的过滤条件
+  string filter = 1;  // 可以为空，不做过滤
+}
+
+// 获取节点列表响应
+message GetNodesResponse {
+  bool success = 1;
+  string message = 2;
+  repeated NodeInfo nodes = 3; // 节点列表
+}
+
+// 获取节点详细信息请求
+message GetNodeInfoRequest {
+  string node_name = 1;  // 节点名称
+}
+
+// 获取节点详细信息响应
+message GetNodeInfoResponse {
+  bool success = 1;
+  string message = 2;
+  NodeInfo node_info = 3; // 节点基本信息
+  repeated TopicInfo publishes = 4; // 发布的话题
+  repeated TopicInfo subscribes = 5; // 订阅的话题
+}
+
+// 获取话题列表请求
+message GetTopicsRequest {
+  // 可选的过滤条件
+  string filter = 1;  // 可以为空，不做过滤
+}
+
+// 获取话题列表响应
+message GetTopicsResponse {
+  bool success = 1;
+  string message = 2;
+  repeated TopicInfo topics = 3; // 话题列表
+}
+
+// 获取话题详细信息请求
+message GetTopicInfoRequest {
+  string topic_name = 1;  // 话题名称
+}
+
+// 获取话题详细信息响应
+message GetTopicInfoResponse {
+  bool success = 1;
+  string message = 2;
+  string topic_name = 3;  // 话题名称
+  string msg_type = 4;    // 消息类型
+  repeated NodeInfo publishers = 5; // 发布该话题的节点列表
+  repeated NodeInfo subscribers = 6; // 订阅该话题的节点列表
+}
+
+// 定义ROS RPC服务
+service RosRpcService {
+  // 订阅话题服务
+  rpc Subscribe(SubscribeRequest) returns (SubscribeResponse);
+  // 发布者注册服务
+  rpc RegisterPublisher(RegisterPublisherRequest) returns (RegisterPublisherResponse);
+
+  rpc Unsubscribe(UnsubscribeRequest) returns (UnsubscribeResponse);
+  rpc UnregisterPublisher(UnregisterPublisherRequest) returns (UnregisterPublisherResponse);
+
+  // 新增：获取节点列表
+  rpc GetNodes(GetNodesRequest) returns (GetNodesResponse);
+  // 新增：获取节点详细信息
+  rpc GetNodeInfo(GetNodeInfoRequest) returns (GetNodeInfoResponse);
+  // 新增：获取话题列表
+  rpc GetTopics(GetTopicsRequest) returns (GetTopicsResponse);
+  // 新增：获取话题详细信息
+  rpc GetTopicInfo(GetTopicInfoRequest) returns (GetTopicInfoResponse);
+}

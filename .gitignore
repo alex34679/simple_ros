@@ -1,0 +1,19 @@
+# ========== Build & Output ==========
+build/
+
+# ========== Third-party Dependencies ==========
+third_party/
+
+# ========== Generated Code ==========
+src/generated/
+proto/*.pb.*
+*.pyc
+__pycache__/
+
+# ========== IDE & Editor ==========
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+

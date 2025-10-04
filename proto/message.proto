@@ -1,0 +1,8 @@
+syntax = "proto3";
+package ustc;
+
+message Pose {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
